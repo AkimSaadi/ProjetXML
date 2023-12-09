@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CompteBancaire>
-  <CompteBancaire>
+<CompteBancaires>
+  <CompteBancaire typeBanque="physique" typePersonne="physique">
     <numCompte>1</numCompte>
-    <nomProprietaire>momo</nomProprietaire>
+    <nomProprietaire>momp</nomProprietaire>
     <solde>100.0</solde>
-    <dateCreation>2010-12-20</dateCreation>
+    <dateCreation>2010-12-14</dateCreation>
     <typeCompte>epargne</typeCompte>
   </CompteBancaire>
-  <CompteBancaire>
-    <numCompte>2</numCompte>
-    <nomProprietaire>momo2</nomProprietaire>
-    <solde>152.0</solde>
-    <dateCreation>2025-01-14</dateCreation>
-    <typeCompte>courant</typeCompte>
-  </CompteBancaire>
-</CompteBancaire>
+</CompteBancaires>

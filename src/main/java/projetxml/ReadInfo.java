@@ -16,8 +16,8 @@ public class ReadInfo {
 		try {
 			Document doc = new Document();
 			doc.setRootElement(new Element("CompteBancaire"));
+			Scanner sc = new Scanner(System.in);
 			for (int i=0; i<2; i++) {
-				Scanner sc = new Scanner(System.in);
 				System.out.printf("Veuillez saisir le numero de compte du client %d:\n",i);
 				int numCompte = Integer.parseInt(sc.nextLine());
 				System.out.printf("Veuillez saisir le nom du proprietaire du client %d:\n",i);
@@ -41,6 +41,7 @@ public class ReadInfo {
 		            doc.getRootElement().addContent(createCompteBancaireElement(c2));
 		        }
 			}
+			sc.close();
 			XMLOutputter xmlOutput = new XMLOutputter();
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(doc, new FileWriter("compteBancaire.xml"));
