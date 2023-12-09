@@ -16,9 +16,12 @@ import java.util.Scanner;
 
 public class AjoutCompte {
 	
+	public static void addAccount(Scanner sc, String fileName) throws ErrTypeCompteException,JDOMException {
+	    CompteBancaire c1 = makeCompteBancaire(sc);
+	    writeCompteBancaireInXMLFile(fileName,c1);
+	}
 	
-	public static void main(String[] args) throws ErrTypeCompteException, JDOMException {
-		Scanner sc = new Scanner(System.in);
+	private static CompteBancaire makeCompteBancaire(Scanner sc) throws ErrTypeCompteException {
 		System.out.printf("Veuillez saisir le numero de compte du client");
 		int numCompte = Integer.parseInt(sc.nextLine());
 		System.out.println("Veuillez saisir le nom du proprietaire du client ");
@@ -33,35 +36,34 @@ public class AjoutCompte {
 		int jour = Integer.parseInt(sc.nextLine());
 		System.out.println("Veuillez saisir le type de compte du client:");
 		String typeCompte = sc.nextLine();
-		sc.close();
-        CompteBancaire c1 = new CompteBancaire(numCompte, nomProprietaire, solde, LocalDate.of(annee, mois, jour), typeCompte);
-        addAccount("compteBancaire.xml", c1);
-
+		return new CompteBancaire(numCompte, nomProprietaire, solde, LocalDate.of(annee, mois, jour), typeCompte);
 	}
-private static void addAccount(String fileName, CompteBancaire compteBancaire) throws JDOMException {
-	try {
-		SAXBuilder builder = new SAXBuilder();
-		File xmlFile = new File(fileName);
-		Document jdomDoc = (Document) builder.build(xmlFile);
-		Element root = jdomDoc.getRootElement();
-        root.addContent(createCompteBancaireElement(compteBancaire));
-        XMLOutputter xmlOutput = new XMLOutputter();
-        xmlOutput.setFormat(Format.getPrettyFormat());
-        xmlOutput.output(jdomDoc, new FileWriter(fileName));
-        System.out.println("File Saved!");
-	} catch (IOException e) {
-		System.out.println(e.getMessage());
-	} finally {
+	
+	private static Element createCompteBancaireElement(CompteBancaire compteBancaire) {
+		Element compteBancaireElement = new Element("CompteBancaire");
+		compteBancaireElement.addContent(new Element("numCompte").setText("" + compteBancaire.getNumCompte()));
+		compteBancaireElement.addContent(new Element("nomProprietaire").setText(compteBancaire.getNomProprietaire()));
+		compteBancaireElement.addContent(new Element("solde").setText("" + compteBancaire.getSolde()));
+		compteBancaireElement.addContent(new Element("dateCreation").setText("" + compteBancaire.getDateCreation()));
+		compteBancaireElement.addContent(new Element("typeCompte").setText(compteBancaire.getTypeCompte()));
+	    return compteBancaireElement;
+	}
+	
+	private static void writeCompteBancaireInXMLFile(String fileName,CompteBancaire compteBancaire) throws JDOMException {
+		try {
+			SAXBuilder builder = new SAXBuilder();
+			File xmlFile = new File(fileName);
+			Document jdomDoc = (Document) builder.build(xmlFile);
+			Element root = jdomDoc.getRootElement();
+	        root.addContent(createCompteBancaireElement(compteBancaire));
+	        XMLOutputter xmlOutput = new XMLOutputter();
+	        xmlOutput.setFormat(Format.getPrettyFormat());
+	        xmlOutput.output(jdomDoc, new FileWriter(fileName));
+	        System.out.println("File Saved!");
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} finally {
+		}
 	}
 }
 
-private static Element createCompteBancaireElement(CompteBancaire compteBancaire) {
-	Element compteBancaireElement = new Element("CompteBancaire");
-	compteBancaireElement.addContent(new Element("numCompte").setText("" + compteBancaire.getNumCompte()));
-	compteBancaireElement.addContent(new Element("nomProprietaire").setText(compteBancaire.getNomProprietaire()));
-	compteBancaireElement.addContent(new Element("solde").setText("" + compteBancaire.getSolde()));
-	compteBancaireElement.addContent(new Element("dateCreation").setText("" + compteBancaire.getDateCreation()));
-	compteBancaireElement.addContent(new Element("typeCompte").setText(compteBancaire.getTypeCompte()));
-    return compteBancaireElement;
-    }
-}

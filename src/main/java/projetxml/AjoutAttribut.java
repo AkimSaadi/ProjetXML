@@ -15,12 +15,7 @@ import java.io.IOException;
 
 public class AjoutAttribut {
 
-	public static void main(String[] args) throws JDOMException {
-		addAttribut("compteBancaire.xml", "typePersonne", "physique");
-
-	}
-
-	private static void addAttribut(String filename, String attributType, String Attribut) throws JDOMException {
+	public static void addAttribut(String filename, String attributType, String Attribut) throws JDOMException {
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			File xmlFile = new File(filename);

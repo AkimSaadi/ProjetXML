@@ -13,15 +13,8 @@ import java.io.FileWriter;
 import java.util.List;
 
 public class SuppressionCompte {
-	public static void main(String[] args) throws JDOMException {
-		deleteAttribut("compteBancaire.xml", 4);
-		//Savoir la quantité de mémoire utilisée par le programme
-		Runtime runtime = Runtime.getRuntime();
-		System.out.println("Used Memory:" + (runtime.totalMemory() - runtime.freeMemory()) / 1024 + " Ko");
-
-	}
-
-	private static void deleteAttribut(String fileName, int numCompte) throws JDOMException {
+	public static boolean deleteAttribut(String fileName, int numCompte) throws JDOMException {
+		boolean deleted = false;
 		try {
 			SAXBuilder builder = new SAXBuilder();
 			File xmlFile = new File(fileName);
@@ -31,6 +24,7 @@ public class SuppressionCompte {
 			for (Element compte : compteList) {
 				if (Integer.parseInt(compte.getChildText("numCompte")) == numCompte) {
 					root.removeContent(compte);
+					deleted = true;					
 				}
 			}
 			XMLOutputter xmlOutput = new XMLOutputter();
@@ -41,6 +35,7 @@ public class SuppressionCompte {
 			System.out.println(e.getMessage());
 		} finally {
 		}
+		return deleted;
 		
 	}
 
